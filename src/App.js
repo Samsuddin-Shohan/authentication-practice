@@ -1,5 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import initializeFirebase from './Firebase/firebase.init';
+
+initializeFirebase();
+
+
 
 function App() {
   return (
