@@ -1,19 +1,36 @@
 
 import React from 'react';
 import initializeFirebase from '../../Firebase/firebase.init';
-import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GithubAuthProvider,FacebookAuthProvider } from "firebase/auth";
 import { useState } from 'react';
 
 
 initializeFirebase();
 const auth = getAuth();
 const githubProvider = new GithubAuthProvider();
+const facbookProvider = new FacebookAuthProvider();
 
 
 const Authentication = () => {
     const [user, setUser] = useState({});
     const handleFacebookLogin = ()=>{
-        console.log('facebook clicked');
+        signInWithPopup(auth, facbookProvider)
+        .then((result) => {
+          // The signed-in user info.
+          const people = result.user;
+          const {email,displayName,photoURL} = people;
+          setUser({
+              name:displayName,
+              email,
+              photo:photoURL
+          });
+      
+          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+          const credential = FacebookAuthProvider.credentialFromResult(result);
+          const accessToken = credential.accessToken;
+      
+          // ...
+        })
     }
     const handleTwitterLogin = () =>{
         console.log('twitter clicked');
@@ -47,9 +64,9 @@ const Authentication = () => {
             <button onClick={handleTwitterLogin} className='btn btn-primary  m-3 '>Sign in With Twitter</button>
             {
                 user.name && <div className='m-3'>
-                <h2>User: {user.name}</h2>
-                <h4>Email: {user.email}</h4>
-                <img src={user.photo} alt="" />
+                <h2 className='m-2'>User: {user.name}</h2>
+                <h4 className='m-2'>Email: {user.email}</h4>
+                <img className='m-3' src={user.photo} alt="" />
             </div>
             }
         </div>
