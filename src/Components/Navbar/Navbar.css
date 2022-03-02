@@ -1,0 +1,13 @@
+.link {
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+  padding: 1rem;
+}
+.link:active {
+  color: red;
+}
+.link:hover {
+  background-color: #ddd;
+  border-radius: 5px;
+}
